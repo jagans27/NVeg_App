@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.NVeg" parent="android:Theme.Material.Light.NoActionBar" >
+        <item name="android:statusBarColor">@color/darkblack</item>
+        <item name="android:navigationBarColor">@color/darkblack</item>
+    </style>
+</resources>
