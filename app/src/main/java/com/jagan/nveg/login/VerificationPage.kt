@@ -96,10 +96,10 @@ fun VerificationPage() {
         Spacer(modifier = Modifier.height(10.dp))
 
         TextField(
-            value = otp,
+            value = phno,
             onValueChange = {
-                if (it.length <= 6)
-                    otp = it
+                if (it.length <= 10)
+                    phno = it
             },
             colors = TextFieldDefaults.textFieldColors(
                 cursorColor = if (isDark) Color.Black else Color.White,
@@ -130,10 +130,10 @@ fun VerificationPage() {
         if (isOtpEnabled) {
             Spacer(modifier = Modifier.height(10.dp))
             TextField(
-                value = phno,
+                value = otp,
                 onValueChange = {
-                    if (it.length <= 10)
-                        phno = it
+                    if (it.length <= 6)
+                        otp = it
                 },
                 colors = TextFieldDefaults.textFieldColors(
                     cursorColor = if (isDark) Color.Black else Color.White,
