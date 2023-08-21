@@ -1,5 +1,6 @@
-package com.jagan.nveg.login
+package com.jagan.nveg.loginpage
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -35,7 +36,7 @@ import com.jagan.nveg.R
 import com.jagan.nveg.ui.theme.DarkBlack
 
 @Composable
-fun Login() {
+fun LoginPage() {
 
     val isDark = isSystemInDarkTheme()
 
@@ -47,7 +48,6 @@ fun Login() {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-
         Box(
             Modifier
                 .width(200.dp)
@@ -73,11 +73,10 @@ fun Login() {
         Text(text = "Created and Maintained Nveg Team",color= Color.Gray, textAlign = TextAlign.End)
 
     }
-
 }
 
-@Preview
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun SampleViewOfLogin() {
-    Login()
+    LoginPage()
 }

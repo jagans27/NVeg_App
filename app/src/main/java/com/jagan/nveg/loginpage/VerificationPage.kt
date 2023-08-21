@@ -1,5 +1,6 @@
-package com.jagan.nveg.login
+package com.jagan.nveg.loginpage
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
@@ -185,7 +186,7 @@ fun VerificationPage() {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun PreviewVerificationPage() {
     VerificationPage()
