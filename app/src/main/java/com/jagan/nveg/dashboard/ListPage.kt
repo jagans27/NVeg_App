@@ -2,8 +2,10 @@ package com.jagan.nveg.dashboard
 
 import android.annotation.SuppressLint
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -51,7 +53,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jagan.nveg.R
+import com.jagan.nveg.navigation.Screen
 import com.jagan.nveg.ui.theme.DarkBlack
 import com.jagan.nveg.ui.theme.DarkBlackLight
 import com.jagan.nveg.ui.theme.DarkGreen
@@ -63,15 +69,14 @@ import kotlinx.coroutines.launch
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ListPage() {
+fun ListPage(navController: NavHostController) {
     val isDark = isSystemInDarkTheme()
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
     val scope = rememberCoroutineScope()
     var search by rememberSaveable { mutableStateOf("") }
 
     ModalNavigationDrawer(
-        drawerState = drawerState,
-        drawerContent = {
+        drawerState = drawerState, drawerContent = {
             ModalDrawerSheet(
                 drawerContainerColor = if (isDark) DarkBlackLight else Color.White,
                 modifier = Modifier.padding(end = 40.dp)
@@ -81,26 +86,25 @@ fun ListPage() {
 
                 Spacer(modifier = Modifier.height(20.dp))
 
-                NavigationDrawerItemClick("Home", Icons.Default.Home, true) {}
+                NavigationDrawerItemClick("Home", Icons.Default.Home, true) {
+                    navController.navigate(Screen.ListPage.route)
+                }
                 NavigationDrawerItemClick("About", Icons.Default.Info, false) {}
                 NavigationDrawerItemClick("Settings", Icons.Default.Settings, false) {}
                 NavigationDrawerItemClick("Log out", Icons.Default.Warning, false) {}
 
             }
-        },
-        scrimColor = Color.Transparent
+        }, scrimColor = Color.Transparent
     ) {
-        Scaffold(
-            topBar = {
-                AppBar {
-                    scope.launch {
-                        drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
+        Scaffold(topBar = {
+            AppBar {
+                scope.launch {
+                    drawerState.apply {
+                        if (isClosed) open() else close()
                     }
                 }
             }
-        ) {
+        }) {
             Column(
                 modifier = Modifier
                     .fillMaxSize()
@@ -108,8 +112,7 @@ fun ListPage() {
                     .padding(top = 38.dp),
             ) {
                 Spacer(modifier = Modifier.height(30.dp))
-                TextField(
-                    value = search,
+                TextField(value = search,
                     onValueChange = {
                         search = it
                     },
@@ -138,11 +141,10 @@ fun ListPage() {
                             text = "Search by shop name | area",
                             color = if (!isDark) DarkLight else LightWhite
                         )
-                    }
-                )
+                    })
                 LazyColumn {
                     items(40) {
-                        ItemCard()
+                        ItemCard { navController.navigate(Screen.ItemDashboard.route) }
                     }
                 }
             }
@@ -151,7 +153,7 @@ fun ListPage() {
 }
 
 @Composable
-fun ItemCard() {
+fun ItemCard(onItemClick: () -> Unit) {
     val isDark = isSystemInDarkTheme()
 
     Row(
@@ -160,7 +162,10 @@ fun ItemCard() {
             .padding(10.dp)
             .clip(RoundedCornerShape(20.dp))
             .background(if (isSystemInDarkTheme()) DarkLight else LightWhite)
-            .height(130.dp),
+            .height(130.dp)
+            .clickable {
+                onItemClick()
+            },
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically
     ) {
@@ -191,10 +196,7 @@ fun ItemCard() {
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Icon(
-                    Icons.Default.CheckCircle,
-                    "",
-                    tint = DarkGreen,
-                    modifier = Modifier.size(16.dp)
+                    Icons.Default.CheckCircle, "", tint = DarkGreen, modifier = Modifier.size(16.dp)
                 )
             }
 
@@ -215,28 +217,31 @@ fun ItemCard() {
                 horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(text = "CMBF", color = if (isDark) Color.White else Color.Black, fontSize = 17.sp)
+                Text(
+                    text = "CMBF",
+                    color = if (isDark) Color.White else Color.Black,
+                    fontSize = 17.sp
+                )
                 Spacer(Modifier.width(10.dp))
                 Text(text = "4.3", color = OrangeRed, fontWeight = FontWeight.Bold)
                 Icon(
-                    Icons.Default.Star,
-                    "ratings",
-                    tint = OrangeRed,
-                    modifier = Modifier.size(18.dp)
+                    Icons.Default.Star, "ratings", tint = OrangeRed, modifier = Modifier.size(18.dp)
                 )
             }
         }
     }
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 fun ListPagePreview() {
-    ListPage()
+    ListPage(navController = rememberAnimatedNavController())
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Preview(uiMode = UI_MODE_NIGHT_YES)
 @Composable
 fun ListPagePreview1() {
-    ListPage()
+    ListPage(navController = rememberAnimatedNavController())
 }

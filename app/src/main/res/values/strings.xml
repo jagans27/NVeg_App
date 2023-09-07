@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">NVeg</string>
     <string name="terms">\"Your credentials are securely encrypted. In the unlikely event of any data leakage, rest assured, our company will handle it with utmost care\"</string>
-    <string name="otp_verification">We will send you an One Time Password on this mobile number</string>
+    <string name="otp_verification">We will send you an One Time Password to this email id</string>
 </resources>

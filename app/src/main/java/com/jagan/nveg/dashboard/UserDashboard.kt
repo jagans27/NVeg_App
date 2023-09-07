@@ -1,6 +1,7 @@
 package com.jagan.nveg.dashboard
 
 import android.content.res.Configuration
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -40,6 +41,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.google.accompanist.navigation.animation.rememberAnimatedNavController
 import com.jagan.nveg.R
 import com.jagan.nveg.ui.theme.DarkBlack
 import com.jagan.nveg.ui.theme.DarkBlackLight
@@ -48,7 +52,7 @@ import com.jagan.nveg.ui.theme.OrangeRed
 
 
 @Composable
-fun UserDashboard() {
+fun UserDashboard(navController: NavHostController) {
 
     val isDark = isSystemInDarkTheme()
 
@@ -178,15 +182,16 @@ fun CardText(txt: String) {
     )
 }
 
-
+@OptIn(ExperimentalAnimationApi::class)
 @Preview
 @Composable
 fun UserDashboardPreview() {
-    UserDashboard()
+    UserDashboard(navController = rememberAnimatedNavController())
 }
 
+@OptIn(ExperimentalAnimationApi::class)
 @Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
 @Composable
 fun UserDashboardPreview1() {
-    UserDashboard()
+    UserDashboard(navController = rememberAnimatedNavController())
 }
